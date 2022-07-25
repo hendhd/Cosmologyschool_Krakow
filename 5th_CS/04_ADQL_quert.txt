@@ -1,0 +1,20 @@
+Select the GAVO datacenter at ari with the address
+http://dc.zah.uni-heidelberg.de/tap
+or select the service in a client like topcat by searching the registry. 
+
+Post the following query in your TAP/ADQL client. Make sure you submit the query in asynchronous mode. It may run quite some time, but should show results within 30 minutes. 
+
+
+
+SELECT
+   COUNT (*) AS ct,
+   (ROUND (spec_z*20))/20 as rs,
+   ivo_healpix_index(8, ra, dec) AS hpx
+
+   FROM sdssdr16.main
+   WHERE
+        class = 3 AND
+        spec_z IS NOT NULL AND
+        spec_z_err BETWEEN 0 AND 0.25
+
+GROUP BY hpx,rs
